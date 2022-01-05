@@ -12,7 +12,7 @@ import { Card, Cards, Container, Header } from './styles';
 
 export function TodoList() {
 	const { user } = useAuth();
-	const { task } = useTodo();
+	const { task, handleRemoveTask } = useTodo();
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -32,14 +32,18 @@ export function TodoList() {
 
 			<Cards>
 				{task.map(tasks => (
-					<Card>
-						<h1 className="title">{tasks.title}</h1>
+					<Card key={tasks.id}>
+						<h2>{tasks.title}</h2>
 						<p>{tasks.content}</p>
-						<div className="trash">
-							<FcFullTrash size="50" />
-						</div>
+						<a className="trash" onClick={() => handleRemoveTask(tasks.id)}>
+							<FcFullTrash size="50" className="trashIcon" />
+						</a>
 						<div>
-							<AiOutlineArrowRight size="50" color="#f72585" />
+							<AiOutlineArrowRight
+								size="50"
+								color="#f72585"
+								className="arrowIcon"
+							/>
 						</div>
 					</Card>
 				))}

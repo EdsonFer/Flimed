@@ -14,7 +14,7 @@ function App() {
 				<TodoContextProvider>
 					<Routes>
 						<Route path="/" element={<Home />} />
-						<Route path="/notas" element={<TodoList />} />
+						<Route path="/tarefas" element={<TodoList />} />
 					</Routes>
 				</TodoContextProvider>
 			</AuthContextProvider>

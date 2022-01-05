@@ -32,7 +32,6 @@ export const Card = styled.div`
 	border-radius: 16px;
 	background: #c9cad9;
 	color: black;
-	padding: 2px;
 	word-break: break-all;
 	overflow-y: hidden;
 	position: relative;
@@ -44,9 +43,9 @@ export const Card = styled.div`
 		box-shadow: 0 0 40px -10px rgba(0, 0, 0, 0.25);
 	}
 
-	.title {
-		height: 100px;
-		padding: 20px;
+	h2 {
+		height: 80px;
+		padding: 15px;
 		display: flex;
 		flex-direction: column;
 
@@ -55,26 +54,32 @@ export const Card = styled.div`
 			width: 70%;
 			height: 5px;
 			background: #f72585;
-			border-radius: 16px;
 		}
 	}
 
 	p {
 		text-align: center;
-		font-size: 24px;
+		font-size: 20px;
+		padding: 15px;
 	}
 
 	.trash {
 		position: absolute;
 		bottom: 0;
 		left: 5px;
-		cursor: pointer;
+
+		.trashIcon {
+			cursor: pointer;
+		}
 	}
 
 	div {
 		position: absolute;
 		bottom: 0;
 		right: 5px;
-		cursor: pointer;
+
+		.arrowIcon {
+			cursor: pointer;
+		}
 	}
 `;

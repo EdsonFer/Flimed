@@ -25,7 +25,7 @@ export const Form = styled.form`
 		background: #cccccc;
 		color: black;
 		resize: vertical;
-		min-height: 130px;
+		min-height: 185px;
 
 		font-size: 24px;
 	}

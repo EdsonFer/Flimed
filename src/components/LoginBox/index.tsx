@@ -13,7 +13,7 @@ export function LoginBox() {
 		if (!user) {
 			await signInWithGoogle();
 		}
-		navigate('/notas');
+		navigate('/tarefas');
 	}
 
 	return (

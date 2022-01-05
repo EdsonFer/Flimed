@@ -10,6 +10,7 @@ type Tasks = {
 type TodoContextData = {
 	task: Tasks[];
 	handleAddTask: (title: string, description: string, content: string) => void;
+	handleRemoveTask: (id: number) => void;
 };
 
 type TodoProviderProps = {
@@ -34,11 +35,15 @@ export function TodoContextProvider({ children }: TodoProviderProps) {
 			content: content,
 		});
 		SetTask(newTask);
-		console.log(task);
+	};
+
+	const handleRemoveTask = (id: number) => {
+		const filteredTasks = task.filter(task => task.id !== id);
+		SetTask(filteredTasks);
 	};
 
 	return (
-		<TodoContext.Provider value={{ task, handleAddTask }}>
+		<TodoContext.Provider value={{ task, handleAddTask, handleRemoveTask }}>
 			{children}
 		</TodoContext.Provider>
 	);
