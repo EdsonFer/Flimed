@@ -13,17 +13,17 @@ export function LoginBox() {
 		if (!user) {
 			await signInWithGoogle();
 		}
-		navigate('/tarefas');
+		navigate('/notas');
 	}
 
 	return (
 		<LoginBoxWrapper>
-			<img src={gohan} width="800" />
-			<strong>Entre e faça sua lista de Tarefas</strong>
-			<button className="signInWithGoogle" onClick={signIn}>
-				<FcGoogle size="24" />
+			<img src={gohan} />
+			<strong>Entre e faça suas Anotações</strong>
+			<a className="signInWithGoogle" onClick={signIn}>
+				<FcGoogle size="40" />
 				Entrar com Google
-			</button>
+			</a>
 		</LoginBoxWrapper>
 	);
 }

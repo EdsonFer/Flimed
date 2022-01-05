@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const LoginBoxWrapper = styled.div`
 	height: 100vh;
 	width: 100%;
-
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -14,13 +13,17 @@ export const LoginBoxWrapper = styled.div`
 		line-height: 36px;
 	}
 
+	img {
+		width: 80%;
+	}
+
 	.signInWithGoogle {
-		background: #e8e8e4;
-		margin-top: 32px;
+		background: #4895ef;
+		margin: 32px 0 32px 0;
 		padding: 0 40px;
 		height: 65px;
-		color: #09090a;
-		font-size: 18px;
+		color: #242526;
+		font-size: 20px;
 		font-weight: bold;
 		cursor: pointer;
 		text-transform: uppercase;
