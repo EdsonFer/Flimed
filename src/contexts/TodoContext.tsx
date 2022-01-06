@@ -1,16 +1,38 @@
-import { createContext, ReactNode, useContext, useState } from 'react';
+import {
+	createContext,
+	ReactNode,
+	useContext,
+	useEffect,
+	useState,
+} from 'react';
+
+import { database } from '../services/firebase';
+import {
+	collection,
+	addDoc,
+	deleteDoc,
+	Timestamp,
+	query,
+	orderBy,
+	onSnapshot,
+	DocumentData,
+	doc,
+} from 'firebase/firestore';
 
 type Tasks = {
-	id: number;
+	id: string;
 	title: string;
 	description: string;
 	content: string;
+	check: boolean;
 };
 
+type TasksInput = Omit<Tasks, 'id'>;
+
 type TodoContextData = {
-	task: Tasks[];
-	handleAddTask: (title: string, description: string, content: string) => void;
-	handleRemoveTask: (id: number) => void;
+	tasks: Tasks[] | DocumentData;
+	createNewTask: (task: TasksInput) => void;
+	deleteTask: (id: string) => void;
 };
 
 type TodoProviderProps = {
@@ -20,30 +42,54 @@ type TodoProviderProps = {
 export const TodoContext = createContext({} as TodoContextData);
 
 export function TodoContextProvider({ children }: TodoProviderProps) {
-	const [task, SetTask] = useState<Tasks[]>([]);
+	const [tasks, setTasks] = useState<Tasks[] | DocumentData>([]);
 
-	const handleAddTask = (
-		title: string,
-		description: string,
-		content: string
-	) => {
-		let newTask = [...task];
-		newTask.push({
-			id: task.length + 1,
-			title: title,
-			description: description,
-			content: content,
+	useEffect(() => {
+		const result = query(
+			collection(database, 'tasks'),
+			orderBy('created', 'desc')
+		);
+		onSnapshot(result, querySnapshot => {
+			setTasks(
+				querySnapshot.docs.map(doc => ({
+					id: doc.id,
+					data: doc.data(),
+				}))
+			);
 		});
-		SetTask(newTask);
-	};
+	}, []);
 
-	const handleRemoveTask = (id: number) => {
-		const filteredTasks = task.filter(task => task.id !== id);
-		SetTask(filteredTasks);
-	};
+	async function createNewTask(taskInput: TasksInput) {
+		try {
+			await addDoc(collection(database, 'tasks'), {
+				title: taskInput.title,
+				description: taskInput.description,
+				content: taskInput.content,
+				check: taskInput.check,
+				created: Timestamp.now(),
+			});
+		} catch (error) {
+			alert(error);
+		}
+	}
+
+	async function deleteTask(id: string) {
+		const taskDocRef = doc(database, 'tasks', id);
+		try {
+			await deleteDoc(taskDocRef);
+		} catch (error) {
+			alert(error);
+		}
+	}
 
 	return (
-		<TodoContext.Provider value={{ task, handleAddTask, handleRemoveTask }}>
+		<TodoContext.Provider
+			value={{
+				tasks,
+				createNewTask,
+				deleteTask,
+			}}
+		>
 			{children}
 		</TodoContext.Provider>
 	);

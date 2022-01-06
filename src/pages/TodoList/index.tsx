@@ -1,25 +1,22 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-
-import { Task } from '../../components/Task';
+import { CreateTaskForm } from '../../components/CreateTaskForm';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTodo } from '../../contexts/TodoContext';
+import { useNavigate } from 'react-router-dom';
 
 import { FcFullTrash } from 'react-icons/fc';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 
 import { Card, Cards, Container, Header } from './styles';
+import { DocumentData } from 'firebase/firestore';
 
 export function TodoList() {
 	const { user } = useAuth();
-	const { task, handleRemoveTask } = useTodo();
+	const { tasks, deleteTask } = useTodo();
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		if (!user) {
-			navigate('/');
-		}
-	}, []);
+	function EditTaskPage(id: number) {
+		navigate(`/editar/${id}`);
+	}
 
 	return (
 		<Container>
@@ -28,23 +25,24 @@ export function TodoList() {
 				<h1>{user?.name}</h1>
 			</Header>
 
-			<Task />
+			<CreateTaskForm />
 
 			<Cards>
-				{task.map(tasks => (
-					<Card key={tasks.id}>
-						<h2>{tasks.title}</h2>
-						<p>{tasks.content}</p>
-						<a className="trash" onClick={() => handleRemoveTask(tasks.id)}>
+				{tasks.map((task: DocumentData) => (
+					<Card key={task.id}>
+						<h1>{task.data.title}</h1>
+						<p className="description">{task.data.description}</p>
+						<p>{task.data.content}</p>
+						<a className="trash" onClick={() => deleteTask(task.id)}>
 							<FcFullTrash size="50" className="trashIcon" />
 						</a>
-						<div>
+						<a onClick={() => EditTaskPage(task.id)}>
 							<AiOutlineArrowRight
 								size="50"
 								color="#f72585"
 								className="arrowIcon"
 							/>
-						</div>
+						</a>
 					</Card>
 				))}
 			</Cards>

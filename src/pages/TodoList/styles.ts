@@ -43,7 +43,7 @@ export const Card = styled.div`
 		box-shadow: 0 0 40px -10px rgba(0, 0, 0, 0.25);
 	}
 
-	h2 {
+	h1 {
 		height: 80px;
 		padding: 15px;
 		display: flex;
@@ -54,6 +54,20 @@ export const Card = styled.div`
 			width: 70%;
 			height: 5px;
 			background: #f72585;
+		}
+	}
+
+	.description {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-transform: uppercase;
+		&::after {
+			content: '';
+			width: 40%;
+
+			height: 2px;
+			background: #333;
 		}
 	}
 
@@ -73,7 +87,7 @@ export const Card = styled.div`
 		}
 	}
 
-	div {
+	a {
 		position: absolute;
 		bottom: 0;
 		right: 5px;
