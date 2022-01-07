@@ -1,63 +1,79 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { FormEvent, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
+import { useTodo } from '../../contexts/TodoContext';
+import Modal from 'react-modal';
 
 import { Container, Form, Header } from './styles';
 
-export function EditTask() {
-	const navigate = useNavigate();
-	const { id } = useParams();
-	const { user } = useAuth();
-	const [inputTitle, setInputTitle] = useState('');
-	const [inputDescription, setInputDescription] = useState('');
-	const [inputContent, setInputContent] = useState('');
-	const [task, setTask] = useState([]);
+type EditTaskProps = {
+	isOpen: boolean;
+	onRequestClose: () => void;
+	id: string;
+	initialTitle: string;
+	initialDescription: string;
+	initialContent: string;
+};
 
-	useEffect(() => {
-		if (!id) {
-			navigate('/');
-		}
-		/* 	async function ListTaskById(id: number) {
-			const response = await api.get(`/editar/${id}`);
-			if (response.data.id === id) {
-				setTask(response.data);
-				console.log(response.data);
-			}
-		}
-		ListTaskById(Number(id)); */
-	}, []);
+export function EditTask({
+	isOpen,
+	onRequestClose,
+	id,
+	initialTitle,
+	initialDescription,
+	initialContent,
+}: EditTaskProps) {
+	const { user } = useAuth();
+	const { updateTask } = useTodo();
+	const [title, setTitle] = useState(initialTitle);
+	const [description, setDescription] = useState(initialDescription);
+	const [content, setContent] = useState(initialContent);
+
+	function handleSubmit(event: FormEvent) {
+		event.preventDefault();
+		updateTask({
+			id: id!,
+			title: title,
+			description: description,
+			content: content,
+		});
+		setTitle('');
+		setDescription('');
+		setContent('');
+	}
 
 	return (
-		<Container>
-			<Header>
-				<img src={user?.avatar} />
-				<h1>{user?.name}</h1>
-			</Header>
+		<Modal isOpen={isOpen} onRequestClose={onRequestClose}>
+			<Container>
+				<Header>
+					<img src={user?.avatar} />
+					<h1>{user?.name}</h1>
+				</Header>
 
-			<Form>
-				<input type="hidden" value={id} readOnly />
-				<input
-					type="text"
-					placeholder="Título da Tarefa"
-					value={inputTitle}
-					onChange={event => setInputTitle(event.target.value)}
-				/>
+				<Form onSubmit={handleSubmit}>
+					<input type="text" value={id} readOnly />
 
-				<input
-					type="text"
-					placeholder="Descrição da Tarefa"
-					value={inputDescription}
-					onChange={event => setInputDescription(event.target.value)}
-				/>
-				<textarea
-					placeholder="Tarefa"
-					value={inputContent}
-					onChange={event => setInputContent(event.target.value)}
-					required
-				/>
-				<button>Editar Tarefa</button>
-				<a href="/tarefas">Voltar</a>
-			</Form>
-		</Container>
+					<input
+						type="text"
+						placeholder="Título da Tarefa"
+						value={title}
+						onChange={event => setTitle(event.target.value)}
+					/>
+					<input
+						type="text"
+						placeholder="Descrição da Tarefa"
+						value={description}
+						onChange={event => setDescription(event.target.value)}
+					/>
+					<textarea
+						placeholder="Tarefa"
+						value={content}
+						onChange={event => setContent(event.target.value)}
+						required
+					/>
+					<button>Editar Tarefa</button>
+					<a href="/tarefas">Voltar</a>
+				</Form>
+			</Container>
+		</Modal>
 	);
 }

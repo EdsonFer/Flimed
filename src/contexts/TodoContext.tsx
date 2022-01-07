@@ -11,6 +11,7 @@ import {
 	collection,
 	addDoc,
 	deleteDoc,
+	updateDoc,
 	Timestamp,
 	query,
 	orderBy,
@@ -27,11 +28,13 @@ type Tasks = {
 	check: boolean;
 };
 
+type TasksEdit = Omit<Tasks, 'check'>;
 type TasksInput = Omit<Tasks, 'id'>;
 
 type TodoContextData = {
 	tasks: Tasks[] | DocumentData;
 	createNewTask: (task: TasksInput) => void;
+	updateTask: (task: TasksEdit) => void;
 	deleteTask: (id: string) => void;
 };
 
@@ -82,12 +85,26 @@ export function TodoContextProvider({ children }: TodoProviderProps) {
 		}
 	}
 
+	async function updateTask(task: TasksEdit) {
+		const taskDocRef = doc(database, 'tasks', task.id);
+		try {
+			await updateDoc(taskDocRef, {
+				title: task.title,
+				description: task.description,
+				content: task.content,
+			});
+		} catch (error) {
+			alert(error);
+		}
+	}
+
 	return (
 		<TodoContext.Provider
 			value={{
 				tasks,
 				createNewTask,
 				deleteTask,
+				updateTask,
 			}}
 		>
 			{children}

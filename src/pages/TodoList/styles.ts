@@ -87,10 +87,12 @@ export const Card = styled.div`
 		}
 	}
 
-	a {
+	button {
 		position: absolute;
 		bottom: 0;
 		right: 5px;
+		background: none;
+		border: none;
 
 		.arrowIcon {
 			cursor: pointer;

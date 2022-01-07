@@ -1,21 +1,26 @@
-import { CreateTaskForm } from '../../components/CreateTaskForm';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTodo } from '../../contexts/TodoContext';
-import { useNavigate } from 'react-router-dom';
+import { EditTask } from '../EditTask';
+import { CreateTaskForm } from '../../components/CreateTaskForm';
 
 import { FcFullTrash } from 'react-icons/fc';
 import { AiOutlineArrowRight } from 'react-icons/ai';
-
 import { Card, Cards, Container, Header } from './styles';
+
 import { DocumentData } from 'firebase/firestore';
+import { useState } from 'react';
 
 export function TodoList() {
 	const { user } = useAuth();
 	const { tasks, deleteTask } = useTodo();
-	const navigate = useNavigate();
+	const [isEditTaskModalOpen, setIsEditTaskModalOpen] = useState(false);
 
-	function EditTaskPage(id: number) {
-		navigate(`/editar/${id}`);
+	function handleOpenEditTaskModal() {
+		setIsEditTaskModalOpen(true);
+	}
+
+	function handleCloseEditTaskModal() {
+		setIsEditTaskModalOpen(false);
 	}
 
 	return (
@@ -36,13 +41,22 @@ export function TodoList() {
 						<a className="trash" onClick={() => deleteTask(task.id)}>
 							<FcFullTrash size="50" className="trashIcon" />
 						</a>
-						<a onClick={() => EditTaskPage(task.id)}>
+						<button onClick={handleOpenEditTaskModal}>
 							<AiOutlineArrowRight
 								size="50"
 								color="#f72585"
 								className="arrowIcon"
 							/>
-						</a>
+						</button>
+
+						<EditTask
+							id={task.id}
+							initialTitle={task.data.title}
+							initialDescription={task.data.description}
+							initialContent={task.data.content}
+							isOpen={isEditTaskModalOpen}
+							onRequestClose={handleCloseEditTaskModal}
+						/>
 					</Card>
 				))}
 			</Cards>
