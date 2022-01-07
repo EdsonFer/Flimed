@@ -1,6 +1,6 @@
 import { useState, FormEvent } from 'react';
 import { useTodo } from '../../contexts/TodoContext';
-
+import toast, { Toaster } from 'react-hot-toast';
 import { Form } from './styles';
 
 export function CreateTaskForm() {
@@ -8,6 +8,7 @@ export function CreateTaskForm() {
 	const [description, setDescription] = useState('');
 	const [content, setContent] = useState('');
 	const { createNewTask } = useTodo();
+	const notify = () => toast.success('Tarefa criada com Sucesso');
 
 	function handleSubmit(event: FormEvent) {
 		event.preventDefault();
@@ -15,15 +16,16 @@ export function CreateTaskForm() {
 			title: title,
 			description: description,
 			content: content,
-			check: false,
 		});
 		setTitle('');
 		setDescription('');
 		setContent('');
+		notify();
 	}
 
 	return (
 		<Form onSubmit={handleSubmit}>
+			<Toaster position="top-center" reverseOrder={false} />
 			<input
 				type="text"
 				placeholder="Título da Tarefa"

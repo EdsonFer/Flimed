@@ -19,7 +19,6 @@ function App() {
 						<Route element={<ProtectedRoute />}>
 							<Route path="/tarefas" element={<TodoList />} />
 						</Route>
-
 						<Route path="*" element={<NotFound />} />
 					</Routes>
 				</TodoContextProvider>

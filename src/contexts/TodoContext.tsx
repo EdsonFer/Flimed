@@ -25,7 +25,6 @@ type Tasks = {
 	title: string;
 	description: string;
 	content: string;
-	check: boolean;
 };
 
 type TasksEdit = Omit<Tasks, 'check'>;
@@ -68,7 +67,6 @@ export function TodoContextProvider({ children }: TodoProviderProps) {
 				title: taskInput.title,
 				description: taskInput.description,
 				content: taskInput.content,
-				check: taskInput.check,
 				created: Timestamp.now(),
 			});
 		} catch (error) {
