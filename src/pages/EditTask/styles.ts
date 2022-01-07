@@ -2,9 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
 	max-width: 1200px;
-	height: 100vh;
 	margin: 0 auto;
-	padding: 10px;
 `;
 
 export const Header = styled.div`
@@ -27,6 +25,7 @@ export const Form = styled.form`
 		padding: 24px;
 		font-size: 24px;
 		outline: none;
+		border: none;
 		border-radius: 16px;
 		background: #cccccc;
 		color: black;
@@ -34,7 +33,7 @@ export const Form = styled.form`
 
 	textarea {
 		width: 100%;
-		border: 0;
+		border: none;
 		padding: 20px;
 		outline: none;
 		border-radius: 16px;
@@ -42,17 +41,24 @@ export const Form = styled.form`
 		color: black;
 		resize: vertical;
 		min-height: 185px;
-
 		font-size: 24px;
 	}
 
 	button {
 		padding: 24px;
 		border-radius: 16px;
+		border: none;
 		font-size: 24px;
 		line-height: 20px;
 		font-weight: bold;
 		background: #ffee32;
 		cursor: pointer;
+	}
+
+	a {
+		cursor: pointer;
+		text-align: center;
+		font-size: 24px;
+		font-weight: bold;
 	}
 `;

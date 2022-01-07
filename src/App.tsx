@@ -4,7 +4,6 @@ import { TodoContextProvider } from './contexts/TodoContext';
 
 import { Home } from './pages/Home';
 import { TodoList } from './pages/TodoList';
-import { EditTask } from './pages/EditTask';
 import { NotFound } from './components/NotFound';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -21,7 +20,6 @@ function App() {
 							<Route path="/tarefas" element={<TodoList />} />
 						</Route>
 
-						{/* <Route path="/editar/:id" element={<EditTask />} /> */}
 						<Route path="*" element={<NotFound />} />
 					</Routes>
 				</TodoContextProvider>
