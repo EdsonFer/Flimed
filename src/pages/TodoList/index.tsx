@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTodo } from '../../contexts/TodoContext';
 import { EditTask } from '../EditTask';
@@ -8,10 +9,10 @@ import { AiOutlineArrowRight } from 'react-icons/ai';
 import { Card, Cards, Container, Header } from './styles';
 
 import { DocumentData } from 'firebase/firestore';
-import { useState } from 'react';
 
 export function TodoList() {
 	const { user } = useAuth();
+	const [id, setId] = useState('');
 	const { tasks, deleteTask } = useTodo();
 	const [isEditTaskModalOpen, setIsEditTaskModalOpen] = useState(false);
 
@@ -46,14 +47,12 @@ export function TodoList() {
 								size="50"
 								color="#f72585"
 								className="arrowIcon"
+								onClick={() => setId(task.id)}
 							/>
 						</button>
 
 						<EditTask
-							id={task.id}
-							initialTitle={task.data.title}
-							initialDescription={task.data.description}
-							initialContent={task.data.content}
+							id={id}
 							isOpen={isEditTaskModalOpen}
 							onRequestClose={handleCloseEditTaskModal}
 						/>

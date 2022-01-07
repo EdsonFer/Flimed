@@ -11,10 +11,12 @@ export const LoginBoxWrapper = styled.div`
 	strong {
 		font-size: 40px;
 		line-height: 36px;
+		text-align: center;
 	}
 
 	img {
 		width: 80%;
+		height: 70%;
 	}
 
 	.signInWithGoogle {

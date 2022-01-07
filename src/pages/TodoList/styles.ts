@@ -93,6 +93,7 @@ export const Card = styled.div`
 		right: 5px;
 		background: none;
 		border: none;
+		outline: none;
 
 		.arrowIcon {
 			cursor: pointer;

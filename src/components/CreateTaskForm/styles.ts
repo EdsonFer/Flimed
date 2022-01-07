@@ -14,11 +14,12 @@ export const Form = styled.form`
 		border-radius: 16px;
 		background: #cccccc;
 		color: black;
+		border: none;
 	}
 
 	textarea {
 		width: 100%;
-		border: 0;
+		border: none;
 		padding: 20px;
 		outline: none;
 		border-radius: 16px;
@@ -33,6 +34,7 @@ export const Form = styled.form`
 	button {
 		padding: 24px;
 		border-radius: 16px;
+		border: none;
 		font-size: 24px;
 		line-height: 20px;
 		font-weight: bold;

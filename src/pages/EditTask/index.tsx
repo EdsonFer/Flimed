@@ -9,24 +9,14 @@ type EditTaskProps = {
 	isOpen: boolean;
 	onRequestClose: () => void;
 	id: string;
-	initialTitle: string;
-	initialDescription: string;
-	initialContent: string;
 };
 
-export function EditTask({
-	isOpen,
-	onRequestClose,
-	id,
-	initialTitle,
-	initialDescription,
-	initialContent,
-}: EditTaskProps) {
+export function EditTask({ isOpen, onRequestClose, id }: EditTaskProps) {
 	const { user } = useAuth();
 	const { updateTask } = useTodo();
-	const [title, setTitle] = useState(initialTitle);
-	const [description, setDescription] = useState(initialDescription);
-	const [content, setContent] = useState(initialContent);
+	const [title, setTitle] = useState('');
+	const [description, setDescription] = useState('');
+	const [content, setContent] = useState('');
 
 	function handleSubmit(event: FormEvent) {
 		event.preventDefault();
@@ -39,10 +29,17 @@ export function EditTask({
 		setTitle('');
 		setDescription('');
 		setContent('');
+		onRequestClose();
 	}
 
 	return (
-		<Modal isOpen={isOpen} onRequestClose={onRequestClose}>
+		<Modal
+			isOpen={isOpen}
+			onRequestClose={onRequestClose}
+			ariaHideApp={false}
+			overlayClassName="react-modal-overlay"
+			className="react-modal-content"
+		>
 			<Container>
 				<Header>
 					<img src={user?.avatar} />
@@ -50,8 +47,6 @@ export function EditTask({
 				</Header>
 
 				<Form onSubmit={handleSubmit}>
-					<input type="text" value={id} readOnly />
-
 					<input
 						type="text"
 						placeholder="Título da Tarefa"
@@ -71,7 +66,7 @@ export function EditTask({
 						required
 					/>
 					<button>Editar Tarefa</button>
-					<a href="/tarefas">Voltar</a>
+					<a onClick={onRequestClose}>Voltar</a>
 				</Form>
 			</Container>
 		</Modal>
